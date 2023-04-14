@@ -27,5 +27,11 @@ async def filter_bad_words(message: types.Message):
         # print(a.dice.value)
 
 
+async def delete_sticker(message: types.Message):
+    await message.delete()
+
+
 def register_handlers_extra(dp: Dispatcher):
-    dp.register_message_handler(filter_bad_words)
+    dp.register_message_handler(filter_bad_words, content_types=['text'])
+    dp.register_message_handler(delete_sticker, content_types=['sticker'])
+
