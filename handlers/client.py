@@ -4,15 +4,21 @@ from aiogram.dispatcher.filters import Text
 
 from config import bot
 from .client_kb import start_markup
-from database.bot_db import sql_command_random
+from database.bot_db import sql_command_random, sql_command_all_users, sql_command_insert_user
+from .utils import get_ids_from_users
 
 
-# @dp.message_handler(commands=['start'])
 async def start_command(message: types.Message):
+    users = await sql_command_all_users()
+    ids = get_ids_from_users(users)
+    if message.from_user.id not in ids:
+        await sql_command_insert_user(
+            message.from_user.id,
+            message.from_user.username,
+            message.from_user.full_name
+        )
     await bot.send_message(message.from_user.id, f"Салалекум {message.from_user.full_name}",
                            reply_markup=start_markup)
-    # await message.answer("This is an answer method!", reply_markup=)
-    # await message.reply("This is a reply method!", reply_markup=)
 
 
 async def help_command(message: types.Message):
