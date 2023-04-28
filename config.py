@@ -1,3 +1,4 @@
+import openai
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from decouple import config
@@ -9,3 +10,4 @@ TOKEN = config("TOKEN")
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot=bot, storage=storage)
 ADMINS = (5367214519,)
+openai.api_key = config("API_KEY")
